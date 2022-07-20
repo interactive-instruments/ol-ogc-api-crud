@@ -6,7 +6,7 @@ An OpenLayers feature editor for OGC APIs that implement the CRUD draft ([OGC AP
 
 Theses examples demonstrate usage. They use the `dryRun` option, so your changes are not persisted and will disappear on reload.
 
-- [Basic usage](http://raw.githack.com/interactive-instruments/ol-ogc-api-crud/main/examples/basic.html)
+- [Basic usage](http://raw.githack.com/interactive-instruments/ol-ogc-api-crud/main/examples/basic.html)<br/>
   Create an editor for [demo.ldproxy.net/vineyards](https://demo.ldproxy.net/vineyards).
 
 ## Install
@@ -41,7 +41,7 @@ The CSS file `style.css` can be found in `./node_modules/ol-ogc-api-crud/dist`
 
 ## Options
 
-These are the options with their default values. For a full example, see [](examples/index.html).
+These are the options with their default values. 
 
 ```js
 const editor = new OgcApiEditor({
