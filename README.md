@@ -1,6 +1,6 @@
 # OGC API Editor for OpenLayers
 
-An OpenLayers feature editor for OGC APIs that implement the CRUD draft ([OGC API - Features - Part 4: Create, Replace, Update and Delete](http://docs.ogc.org/DRAFTS/20-002.html)). 
+An [OpenLayers](https://openlayers.org) feature editor for OGC APIs that implement the CRUD draft ([OGC API - Features - Part 4: Create, Replace, Update and Delete](http://docs.ogc.org/DRAFTS/20-002.html)). 
 
 This extension adds a layer with the GeoJSON features and tools to edit existing feature geometries and properties as well as create new features.
 
