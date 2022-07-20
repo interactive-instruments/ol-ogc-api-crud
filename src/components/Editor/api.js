@@ -8,10 +8,10 @@ export const getItems = (baseUrl, collection, crs) => {
   ).then(parseJson(false));
 };
 
-export const getItem = (baseUrl, collection, id, crs) => {
+export const getItem = (baseUrl, collection, id, crs, additionalParams) => {
   //return fetch(`${baseUrl}/collections/${collection}/items/${id}?crs=${crs}`, {
   return fetch(
-    `${baseUrl}/collections/${collection}/items/${id}?schema=receivables${
+    `${baseUrl}/collections/${collection}/items/${id}?${additionalParams}${
       crs ? "&crs=" + crs : ""
     }`,
     {
@@ -54,8 +54,10 @@ export const deleteItem = (baseUrl, collection, id) => {
   }).then(checkError);
 };
 
-export const getSchema = (baseUrl, collection) => {
-  return fetch(`${baseUrl}/collections/${collection}/schemas/replace`, {
+export const getSchema = (baseUrl, collection, options) => {
+  const path = (options && options.custom) || options.replace;
+
+  return fetch(`${baseUrl}/collections/${collection}/${path}`, {
     headers: { Accept: "application/schema+json" },
   }).then(parseJson(false));
 };

@@ -90,7 +90,7 @@ export default class OgcApiEditor {
     collection.set(coll);
 
     const schemas = Object.values(colls).map((collection) =>
-      getSchema(url, collection.id).then((schema) => {
+      getSchema(url, collection.id, this.api.schemas).then((schema) => {
         console.log(schema);
         const s = resolveLocalRefs(
           schema.properties.properties,
@@ -170,7 +170,16 @@ export default class OgcApiEditor {
     }
     if (this.tools.edit) {
       map.addInteraction(modify(workbench.getSource()));
-      map.addInteraction(select(url, colls, items.getSource()));
+      map.addInteraction(
+        select(
+          url,
+          colls,
+          items.getSource(),
+          this.api.schemas.custom === "schemas/replace"
+            ? "schema=receivables"
+            : ""
+        )
+      );
     }
 
     map.addLayer(items);
@@ -224,14 +233,20 @@ export default class OgcApiEditor {
               changesProps.set(undefined);
             };
 
-            return getItem(this.api.url, coll.id, feature.id, coll.crs).then(
-              (json) => {
-                featureJson.set(json.feature);
-                featureEtag.set(json.etag);
-                sync.set(STATES.CONFLICT);
-                return discardChanges;
-              }
-            );
+            return getItem(
+              this.api.url,
+              coll.id,
+              feature.id,
+              coll.crs,
+              this.api.schemas.custom === "schemas/replace"
+                ? "schema=receivables"
+                : ""
+            ).then((json) => {
+              featureJson.set(json.feature);
+              featureEtag.set(json.etag);
+              sync.set(STATES.CONFLICT);
+              return discardChanges;
+            });
           } else {
             throw error;
           }
