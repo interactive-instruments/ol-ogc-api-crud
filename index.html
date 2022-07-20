@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OGC API Editor</title>
+    <link
+      rel="stylesheet"
+      href="https://openlayers.org/en/v6.14.1/css/ol.css"
+    />
+  </head>
+  <body>
+    <div id="map" style="height: 100vh"></div>
+    <script src="https://openlayers.org/en/v6.14.1/build/ol.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.min.js"></script>
+    <script type="module">
+      import OgcApiEditor from "/src/index.js";
+
+      proj4.defs(
+        "EPSG:25832",
+        "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"
+      );
+      ol.proj.proj4.register(proj4);
+
+      ol.proj
+        .get("EPSG:25832")
+        .setExtent([-46133.17, 5048875.268576, 1206211.101424, 6301219.54]);
+
+      const utm = new ol.proj.Projection({ code: "EPSG:25832", units: "m" });
+      ol.proj.addProjection(utm);
+
+      //EU_EPSG_25832_TOPPLUS
+      var map = new ol.Map({
+        target: "map",
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.XYZ({
+              attributions:
+                '&copy; <a href="http://www.bkg.bund.de" class="link0" target="_new">Bundesamt f&uuml;r Kartographie und Geod&auml;sie</a> 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf" class="link0" target="_new">Datenquellen</a>',
+              url: "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png",
+            }),
+          }),
+        ],
+        view: new ol.View({
+          center: ol.proj.transform([7, 51], "EPSG:4326", utm),
+          zoom: 8,
+          projection: utm,
+        }),
+      });
+
+      //TODO: extent, get from collection
+      const editor = new OgcApiEditor({
+        api: {
+          url: "http://localhost:7080/rest/services/krankenhaus/v1",
+          //url: "https://inspire-nrw-crud.ldproxy.net/krankenhaus/v1",
+          collections: ["governmentalservice"],
+          crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
+          schemas: {
+            create: "",
+            replace: "",
+            update: "",
+          },
+          capabilities: {
+            crs: true,
+            patch: true,
+            maxAllowableOffset: true,
+          },
+        },
+        tools: {
+          create: true,
+          edit: true,
+          initial: "CREATE", //TODO: constants? how to export? or objects per tool?
+          position: {
+            top: "5rem",
+            left: "0.5rem",
+          },
+        },
+        dryRun: false,
+      });
+      editor.addToMap(map);
+    </script>
+  </body>
+</html>

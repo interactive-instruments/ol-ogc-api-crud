@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OGC API Editor</title>
+    <link
+      rel="stylesheet"
+      href="https://openlayers.org/en/v6.14.1/css/ol.css"
+    />
+    <link rel="stylesheet" href="../dist/style.css" />
+  </head>
+  <body>
+    <div id="map" style="height: 100vh"></div>
+    <script src="https://openlayers.org/en/v6.14.1/build/ol.js"></script>
+    <script src="../dist/ol-ogc-api-crud.6bd8b9b2.umd.js"></script>
+    <script>
+      var map = new ol.Map({
+        target: "map",
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.XYZ({
+              attributions:
+                '&copy; <a href="http://www.bkg.bund.de" class="link0" target="_new">Bundesamt f&uuml;r Kartographie und Geod&auml;sie</a> 2017, <a href="http://sg.geodatenzentrum.de/web_public/Datenquellen_TopPlus_Open.pdf" class="link0" target="_new">Datenquellen</a>',
+              url: "https://sg.geodatenzentrum.de/wmts_topplus_open/tile/1.0.0/web_grau/default/WEBMERCATOR/{z}/{y}/{x}.png",
+            }),
+          }),
+        ],
+        view: new ol.View({
+          center: ol.proj.transform(
+            [8.12397, 49.84363],
+            "EPSG:4326",
+            "EPSG:3857"
+          ),
+          zoom: 7, //12,
+        }),
+      });
+
+      const editor = new OgcApiEditor({});
+      editor.addToMap(map);
+    </script>
+  </body>
+</html>
