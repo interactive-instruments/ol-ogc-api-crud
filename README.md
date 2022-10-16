@@ -1,6 +1,6 @@
 # OGC API Editor for OpenLayers
 
-An [OpenLayers](https://openlayers.org) feature editor for OGC APIs that implement the CRUD draft ([OGC API - Features - Part 4: Create, Replace, Update and Delete](http://docs.ogc.org/DRAFTS/20-002.html)). 
+An [OpenLayers](https://openlayers.org) feature editor for OGC APIs that implement the CRUD draft ([OGC API - Features - Part 4: Create, Replace, Update and Delete](http://docs.ogc.org/DRAFTS/20-002.html)).
 
 This extension adds a layer with the GeoJSON features and tools to edit existing feature geometries and properties as well as create new features.
 
@@ -43,7 +43,7 @@ The CSS file `style.css` can be found in `./node_modules/ol-ogc-api-crud/dist`
 
 ## Options
 
-These are the options with their default values. 
+These are the options with their default values.
 
 ```js
 const editor = new OgcApiEditor({
@@ -52,6 +52,10 @@ const editor = new OgcApiEditor({
     collections: [], // collections that should be available in the editor, currently only the first one is used
     crs: "http://www.opengis.net/def/crs/OGC/1.3/CRS84", // CRS that is used to read and write geometries, changing it only makes sense when the API supports [OGC API - Features - Part 2: Coordinate Reference Systems by Reference](https://docs.opengeospatial.org/is/18-058/18-058.html)
     styleFunction: undefined, // optional style for the GeoJSON layer
+    token: undefined, // optional bearer token, adds an authorization header to api requests
+    capabilities: {
+      patch: false, // use PATCH instead of PUT for updates
+    },
   },
   tools: {
     create: true, // enable creation of new features
