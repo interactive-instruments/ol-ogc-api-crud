@@ -71,15 +71,15 @@ export const findGeoType = (schema, defs) => {
 
   if (s.properties) {
     if (s.properties.type && s.properties.type.enum) {
-      types.push(...(s.properties.type.enum))
+      types.push(...s.properties.type.enum);
     }
   }
   if (s.oneOf) {
-    s.oneOf.forEach(o => {
+    s.oneOf.forEach((o) => {
       if (o.type === "object") {
-        types.push(...(findGeoType(o, defs)))
+        types.push(...findGeoType(o, defs));
       }
-    })
+    });
   }
 
   return types;
@@ -91,13 +91,15 @@ export const geoJson = (projection, crs) =>
     dataProjection: crsToProj(crs),
   });
 
-export const buildFeature = (projection, crs) => {
+export const buildFeature = (projection, crs, patch) => {
   const feature =
     get(tool) === TOOLS.CREATE
       ? //TODO: add crs
         { type: "Feature", properties: {} }
+      : patch
+      ? { id: get(featureJson).id, properties: {} }
       : get(featureJson);
-  
+
   if (get(changesGeo)) {
     const geoJson = new GeoJSON({
       featureProjection: projection,
@@ -126,7 +128,7 @@ export const buildFeature = (projection, crs) => {
       }
       obj[path[path.length - 1]] = changes[key];
     });
-    
+
     feature.properties = newProps;
   }
 

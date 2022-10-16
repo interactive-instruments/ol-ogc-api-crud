@@ -5,8 +5,16 @@ import Projection from "ol/proj/Projection";
 import { tile } from "ol/loadingstrategy";
 import { createXYZ } from "ol/tilegrid";
 import { featureJson, panelOff, sync } from "./store";
+import { toAuthHeader } from "./api";
 
-export const ogcApiLayer = (url, collection, limit, crs, styleFunction) => {
+export const ogcApiLayer = (
+  url,
+  collection,
+  limit,
+  crs,
+  styleFunction,
+  token
+) => {
   const vectorSource = new VectorSource({
     format: new GeoJSON({
       dataProjection: crsToProj(crs),
@@ -30,7 +38,9 @@ export const ogcApiLayer = (url, collection, limit, crs, styleFunction) => {
         "&crs=" +
         encodeURIComponent(crs);
 
-      fetch(query).then((response) => {
+      fetch(query, {
+        headers: toAuthHeader(token),
+      }).then((response) => {
         return response.ok
           ? response.json().then((json) => {
               var features = vectorSource

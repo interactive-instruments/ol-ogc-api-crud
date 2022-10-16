@@ -6,7 +6,14 @@ import Tools from "./Tools";
 import Panel from "./Panel";
 
 import "./tailwind.css";
-import { deleteItem, getItem, getSchema, postItem, putItem } from "./api";
+import {
+  deleteItem,
+  getItem,
+  getSchema,
+  patchItem,
+  postItem,
+  putItem,
+} from "./api";
 import { buildFeature, findGeoType, geoJson, resolveLocalRefs } from "./schema";
 import {
   changesGeo,
@@ -32,6 +39,7 @@ export default class OgcApiEditor {
     this.api = {
       crs: "http://www.opengis.net/def/crs/OGC/1.3/CRS84",
       styleFunction: undefined,
+      token: undefined,
       ...api,
       schemas: {
         custom: null,
@@ -78,7 +86,7 @@ export default class OgcApiEditor {
    * @param {Map} map
    */
   addToMap(map) {
-    const { url, collections: c, crs, styleFunction } = this.api;
+    const { url, collections: c, crs, styleFunction, token } = this.api;
     const coll = c[0];
     const colls = {
       [coll]: {
@@ -90,7 +98,7 @@ export default class OgcApiEditor {
     collection.set(coll);
 
     const schemas = Object.values(colls).map((collection) =>
-      getSchema(url, collection.id, this.api.schemas).then((schema) => {
+      getSchema(url, collection.id, this.api.schemas, token).then((schema) => {
         console.log(schema);
         const s = resolveLocalRefs(
           schema.properties.properties,
@@ -143,7 +151,8 @@ export default class OgcApiEditor {
       coll,
       1000,
       crs,
-      styleFunction
+      styleFunction,
+      token
     ));
     const workbench = editLayer(
       crs,
@@ -157,7 +166,11 @@ export default class OgcApiEditor {
         map,
         allowDelete: this.tools.delete,
         onSaveAsync: () => {
-          const f = buildFeature(map.getView().getProjection(), crs);
+          const f = buildFeature(
+            map.getView().getProjection(),
+            crs,
+            this.api.capabilities.patch
+          );
           return this._syncChanges(f);
         },
         onDeleteAsync: this._deleteFeature.bind(this),
@@ -177,7 +190,8 @@ export default class OgcApiEditor {
           items.getSource(),
           this.api.schemas.custom === "schemas/replace"
             ? "schema=receivables"
-            : ""
+            : "",
+          this.api.token
         )
       );
     }
@@ -201,26 +215,38 @@ export default class OgcApiEditor {
           return sleepAsync();
         }
 
-        return postItem(this.api.url, coll.id, feature, this.api.crs).then(
-          (id) => {
-            console.log("id", id);
-            const f = this.geoJson.readFeature({ ...feature, id });
-            this.items.getSource().addFeature(f);
-          }
-        );
+        return postItem(
+          this.api.url,
+          coll.id,
+          feature,
+          this.api.crs,
+          this.api.token
+        ).then((id) => {
+          console.log("id", id);
+          const f = this.geoJson.readFeature({ ...feature, id });
+          this.items.getSource().addFeature(f);
+        });
       }
 
       if (this.dryRun) {
-        console.log("PUT", coll.id, feature.id, feature);
+        console.log(
+          this.api.capabilities.patch ? "PATCH" : "PUT",
+          coll.id,
+          feature.id,
+          feature
+        );
         return sleepAsync();
       }
 
-      return putItem(
+      const update = this.api.capabilities.patch ? patchItem : putItem;
+
+      return update(
         this.api.url,
         coll.id,
         feature,
         this.api.crs,
-        get(featureEtag)
+        get(featureEtag),
+        this.api.token
       )
         .then(() => {
           const f = this.geoJson.readFeature(feature);
@@ -240,7 +266,8 @@ export default class OgcApiEditor {
               coll.crs,
               this.api.schemas.custom === "schemas/replace"
                 ? "schema=receivables"
-                : ""
+                : "",
+              this.api.token
             ).then((json) => {
               featureJson.set(json.feature);
               featureEtag.set(json.etag);
@@ -268,7 +295,8 @@ export default class OgcApiEditor {
       return deleteItem(
         this.api.url,
         get(collection),
-        get(featureJson).id
+        get(featureJson).id,
+        this.api.token
       ).then(() => {});
     }
   }

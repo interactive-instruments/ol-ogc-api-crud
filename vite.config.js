@@ -13,10 +13,11 @@ export default defineConfig({
       entry: "src/index.js",
       name: "OgcApiEditor",
       formats: ["umd"],
-      fileName: `ol-ogc-api-crud`,//.[hash]`,
+      //fileName: `ol-ogc-api-crud.[hash]`,
+      fileName: `ol-ogc-api-crud`,
     },
     rollupOptions: {
-      external: (path) => /ol\//.test(path) || path === 'ol-mapbox-style',
+      external: (path) => /ol\//.test(path) || path === "ol-mapbox-style",
       output: {
         globals: (path) =>
           /ol\//.test(path) ? path.replace(/\//g, ".") : null,

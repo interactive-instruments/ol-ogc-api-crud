@@ -43,7 +43,13 @@ export const snap = (source) => {
   });
 };
 
-export const select = (baseUrl, collections, source, additionalParams) => {
+export const select = (
+  baseUrl,
+  collections,
+  source,
+  additionalParams,
+  token
+) => {
   const select = new EditorSelect({
     collections: Object.keys(collections),
     onSelect: (results) => {
@@ -56,13 +62,15 @@ export const select = (baseUrl, collections, source, additionalParams) => {
       source.removeFeature(result.feature);
 
       //TODO: error handling
-      getItem(baseUrl, coll.id, id, coll.crs, additionalParams).then((json) => {
-        collection.set(coll.id);
-        feature.set(json.feature.id);
-        featureJson.set(json.feature);
-        featureEtag.set(json.etag);
-        panelOff.set(false);
-      });
+      getItem(baseUrl, coll.id, id, coll.crs, additionalParams, token).then(
+        (json) => {
+          collection.set(coll.id);
+          feature.set(json.feature.id);
+          featureJson.set(json.feature);
+          featureEtag.set(json.etag);
+          panelOff.set(false);
+        }
+      );
     },
   });
   select.setActive(false);

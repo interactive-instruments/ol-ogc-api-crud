@@ -56,9 +56,7 @@
           collections: ["governmentalservice"],
           crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
           schemas: {
-            create: "",
-            replace: "",
-            update: "",
+            custom: "schemas/replace",
           },
           capabilities: {
             crs: true,
@@ -69,7 +67,7 @@
         tools: {
           create: true,
           edit: true,
-          initial: "CREATE", //TODO: constants? how to export? or objects per tool?
+          //initial: "CREATE", //TODO: constants? how to export? or objects per tool?
           position: {
             top: "5rem",
             left: "0.5rem",
