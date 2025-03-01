@@ -18,13 +18,13 @@ Theses examples demonstrate usage. They use the `dryRun` option, so your changes
 #### JS
 
 ```HTML
-<script src="https://unpkg.com/ol-ogc-api-crud@0.3.2"></script>
+<script src="https://unpkg.com/ol-ogc-api-crud@0.3.3"></script>
 ```
 
 #### CSS
 
 ```HTML
-<link rel="stylesheet" href="https://unpkg.com/ol-ogc-api-crud@0.3.2/dist/ol-ogc-api-crud.css" />
+<link rel="stylesheet" href="https://unpkg.com/ol-ogc-api-crud@0.3.3/dist/ol-ogc-api-crud.css" />
 ```
 
 ### npm
