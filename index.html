@@ -6,12 +6,12 @@
     <title>OGC API Editor</title>
     <link
       rel="stylesheet"
-      href="https://openlayers.org/en/v6.14.1/css/ol.css"
+      href="https://cdn.jsdelivr.net/npm/ol@v10.4.0/ol.css"
     />
   </head>
   <body>
     <div id="map" style="height: 100vh"></div>
-    <script src="https://openlayers.org/en/v6.14.1/build/ol.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ol@v10.4.0/dist/ol.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.8.0/proj4.min.js"></script>
     <script type="module">
       import OgcApiEditor from "/src/index.js";
@@ -51,12 +51,12 @@
       //TODO: extent, get from collection
       const editor = new OgcApiEditor({
         api: {
-          url: "http://localhost:7080/rest/services/krankenhaus/v1",
+          url: "http://localhost:7080/krankenhaus",
           //url: "https://inspire-nrw-crud.ldproxy.net/krankenhaus/v1",
           collections: ["governmentalservice"],
           crs: "http://www.opengis.net/def/crs/EPSG/0/25832",
           schemas: {
-            custom: "schemas/replace",
+            custom: "schema",
           },
           capabilities: {
             crs: true,

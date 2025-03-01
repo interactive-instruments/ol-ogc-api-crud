@@ -1,6 +1,6 @@
 {
   "name": "ol-ogc-api-crud",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "repository": "https://github.com/interactive-instruments/ol-ogc-api-crud",
   "license": "MIT",
   "type": "module",
@@ -14,18 +14,17 @@
     "preview": "vite preview"
   },
   "peerDependencies": {
-    "ol": "^6.14.1"
+    "ol": "10.4.0"
   },
   "devDependencies": {
-    "@fortawesome/free-solid-svg-icons": "^6.1.1",
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
-    "autoprefixer": "^10.4.7",
-    "ol": "^6.14.1",
-    "postcss": "^8.4.14",
-    "svelte": "^3.44.0",
-    "svelte-fa": "^3.0.3",
-    "svelte-preprocess": "^4.10.7",
-    "tailwindcss": "^3.1.6",
-    "vite": "^2.9.9"
-  }
+    "@fortawesome/free-solid-svg-icons": "6.7.2",
+    "@sveltejs/vite-plugin-svelte": "5.0.3",
+    "@tailwindcss/vite": "4.0.9",
+    "ol": "10.4.0",
+    "svelte": "5.20.5",
+    "svelte-fa": "4.0.3",
+    "tailwindcss": "4.0.9",
+    "vite": "6.2.0"
+  },
+  "dependencies": {}
 }
