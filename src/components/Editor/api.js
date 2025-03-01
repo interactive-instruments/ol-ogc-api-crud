@@ -48,7 +48,7 @@ export const putItem = (baseUrl, collection, feature, crs, etag, token) => {
     Accept: "application/json",
     ...toAuthHeader(token),
   };
-  if (etag) headers["If-Match"] = etag;
+  //TODO if (etag) headers["If-Match"] = etag;
 
   return fetch(`${baseUrl}/collections/${collection}/items/${feature.id}`, {
     headers,
@@ -64,7 +64,7 @@ export const patchItem = (baseUrl, collection, feature, crs, etag, token) => {
     Accept: "application/json",
     ...toAuthHeader(token),
   };
-  if (etag) headers["If-Match"] = etag;
+  //TODO if (etag) headers["If-Match"] = etag;
 
   return fetch(`${baseUrl}/collections/${collection}/items/${feature.id}`, {
     headers,

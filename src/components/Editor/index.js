@@ -6,6 +6,7 @@ import Tools from "./Tools";
 import Panel from "./Panel";
 
 import "./tailwind.css";
+
 import {
   deleteItem,
   getItem,
@@ -100,13 +101,10 @@ export default class OgcApiEditor {
     const schemas = Object.values(colls).map((collection) =>
       getSchema(url, collection.id, this.api.schemas, token).then((schema) => {
         console.log(schema);
-        const s = resolveLocalRefs(
-          schema.properties.properties,
-          schema["$defs"]
-        );
+        const s = resolveLocalRefs(schema, schema["$defs"]);
         console.log(s);
 
-        let geoTypes = findGeoType(schema.properties.geometry, schema["$defs"]);
+        let geoTypes = findGeoType(s.properties.geometry, schema["$defs"]);
         if (geoTypes.includes(GEO_TYPES.MULTI_POINT))
           geoTypes.splice(
             geoTypes.indexOf(GEO_TYPES.MULTI_POINT),
@@ -188,7 +186,8 @@ export default class OgcApiEditor {
           url,
           colls,
           items.getSource(),
-          this.api.schemas.custom === "schemas/replace"
+          //TODO
+          this.api.schemas.custom === "schema" //s/replace"
             ? "schema=receivables"
             : "",
           this.api.token
@@ -200,6 +199,7 @@ export default class OgcApiEditor {
     map.addLayer(workbench);
 
     this.geoJson = geoJson(map.getView().getProjection(), crs);
+    this.projection = map.getView().getProjection();
   }
 
   _syncChanges(feature) {
@@ -249,7 +249,14 @@ export default class OgcApiEditor {
         this.api.token
       )
         .then(() => {
-          const f = this.geoJson.readFeature(feature);
+          console.log("updated", { ...feature, type: "Feature" });
+          const f = this.geoJson.readFeature(
+            { ...feature, type: "Feature" },
+            {
+              featureProjection: this.projection,
+              dataProjection: this.projection,
+            }
+          );
           this.items.getSource().addFeature(f);
         })
         .catch((error) => {
@@ -264,7 +271,8 @@ export default class OgcApiEditor {
               coll.id,
               feature.id,
               coll.crs,
-              this.api.schemas.custom === "schemas/replace"
+              //TODO
+              this.api.schemas.custom === "schema" //s/replace"
                 ? "schema=receivables"
                 : "",
               this.api.token

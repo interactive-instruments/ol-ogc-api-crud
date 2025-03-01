@@ -1,6 +1,6 @@
 import GeoJSON from "ol/format/GeoJSON";
 import { get } from "svelte/store";
-import { TOOLS } from "./constants";
+import { GEO_TYPES, TOOLS } from "./constants";
 import { crsToProj } from "./layers";
 import { changesGeo, changesProps, featureJson, tool } from "./store";
 
@@ -65,11 +65,18 @@ export const resolveLocalRefs = (schema, defs) => {
 };
 
 export const findGeoType = (schema, defs) => {
-  const s = resolveLocalRefs(schema, defs);
+  //const s = resolveLocalRefs(schema, defs);
 
   const types = [];
 
-  if (s.properties) {
+  //TODO: iterate over all properties, other types
+  if (schema && schema["x-ogc-role"] === "primary-geometry") {
+    if (schema.format === "geometry-point") {
+      types.push(GEO_TYPES.POINT);
+    }
+  }
+
+  /*if (s.properties) {
     if (s.properties.type && s.properties.type.enum) {
       types.push(...s.properties.type.enum);
     }
@@ -80,7 +87,7 @@ export const findGeoType = (schema, defs) => {
         types.push(...findGeoType(o, defs));
       }
     });
-  }
+  }*/
 
   return types;
 };
@@ -109,6 +116,8 @@ export const buildFeature = (projection, crs, patch) => {
       rightHanded: true,
       //TODO: configurable?
       decimals: 10,
+      featureProjection: projection,
+      dataProjection: projection,
     });
   }
   if (get(changesProps)) {

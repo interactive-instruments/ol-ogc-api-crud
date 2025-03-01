@@ -43,9 +43,10 @@ export const ogcApiLayer = (
       }).then((response) => {
         return response.ok
           ? response.json().then((json) => {
-              var features = vectorSource
-                .getFormat()
-                .readFeatures(json, { featureProjection: projection });
+              var features = vectorSource.getFormat().readFeatures(json, {
+                dataProjection: projection,
+                featureProjection: projection,
+              });
               vectorSource.addFeatures(features);
               onSuccess(features);
             })
@@ -82,6 +83,7 @@ export const editLayer = (crs, style, projection) => {
   featureJson.subscribe((next) => {
     if (next) {
       const f = geoJson.readFeature(next, {
+        dataProjection: projection,
         featureProjection: projection,
       });
       source.addFeature(f);
