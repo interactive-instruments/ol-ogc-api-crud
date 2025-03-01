@@ -10,7 +10,7 @@ export default defineConfig({
       name: "OgcApiEditor",
       formats: ["umd"],
       //fileName: `ol-ogc-api-crud.[hash]`,
-      fileName: `ol-ogc-api-crud`,
+      fileName: () => `ol-ogc-api-crud.js`,
     },
     rollupOptions: {
       external: (path) => /ol\//.test(path) || path === "ol-mapbox-style",
