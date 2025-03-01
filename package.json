@@ -1,13 +1,13 @@
 {
   "name": "ol-ogc-api-crud",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "repository": "https://github.com/interactive-instruments/ol-ogc-api-crud",
   "license": "MIT",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/ol-ogc-api-crud.umd.js",
+  "main": "./dist/ol-ogc-api-crud.umd.cjs",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

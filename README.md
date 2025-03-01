@@ -24,7 +24,7 @@ Theses examples demonstrate usage. They use the `dryRun` option, so your changes
 #### CSS
 
 ```HTML
-<link rel="stylesheet" href="https://unpkg.com/ol-ogc-api-crud@0.3.0/dist/style.css" />
+<link rel="stylesheet" href="https://unpkg.com/ol-ogc-api-crud@0.3.0/dist/ol-ogc-api-crud.css" />
 ```
 
 ### npm
@@ -39,7 +39,7 @@ Install the package via `npm`
 
 #### CSS
 
-The CSS file `style.css` can be found in `./node_modules/ol-ogc-api-crud/dist`
+The CSS file `ol-ogc-api-crud.css` can be found in `./node_modules/ol-ogc-api-crud/dist`
 
 ## Options
 
