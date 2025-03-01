@@ -12,7 +12,7 @@
   on:mouseenter
   on:mouseleave
   class="disabled:opacity-70 hover:disabled:opacity-50"
-  class:!bg-ol-button-hover={active}
+  class:active-button={active}
 >
   <slot />
 </button>

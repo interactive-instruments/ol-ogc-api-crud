@@ -1,2 +1,7 @@
-@tailwind base;
-@tailwind utilities;
+@import "tailwindcss";
+
+.ol-control button.active-button {
+  text-decoration: none;
+  outline: 1px solid var(--ol-subtle-foreground-color);
+  color: var(--ol-foreground-color);
+}

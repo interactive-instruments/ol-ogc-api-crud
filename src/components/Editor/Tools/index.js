@@ -1,3 +1,5 @@
+import { mount } from "svelte";
+
 import Control from "ol/control/Control";
 import Tools from "./Tools.svelte";
 
@@ -10,7 +12,7 @@ export default class EditorTools extends Control {
       target.style[key] = position[key];
     });
 
-    new Tools({ target, props });
+    mount(Tools, { target, props });
 
     super({
       element: target,

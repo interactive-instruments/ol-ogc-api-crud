@@ -1,5 +1,5 @@
 <script>
-  import Fa from "svelte-fa/src/fa.svelte";
+  import Fa from "svelte-fa";
   import {
     faPencil,
     faMapMarker,
@@ -28,8 +28,8 @@
         prev === next && $panelOff
           ? TOOLS.NONE
           : prev === TOOLS.NONE || $panelOff
-          ? next
-          : prev;
+            ? next
+            : prev;
       console.log(prev, next, "->", n);
       return n;
     });
@@ -47,6 +47,7 @@
 </script>
 
 {#if create}
+  <!-- svelte-ignore a11y_no_static_element_interactions -->
   <div class="flex" on:mouseleave={() => (createHover = false)}>
     <Button
       active={$tool === TOOLS.CREATE}
