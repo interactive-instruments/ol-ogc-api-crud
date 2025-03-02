@@ -71,8 +71,25 @@ export const findGeoType = (schema, defs) => {
 
   //TODO: iterate over all properties, other types
   if (schema && schema["x-ogc-role"] === "primary-geometry") {
-    if (schema.format === "geometry-point") {
-      types.push(GEO_TYPES.POINT);
+    switch (schema.format) {
+      case "geometry-point":
+        types.push(GEO_TYPES.POINT);
+        break;
+      case "geometry-linestring":
+        types.push(GEO_TYPES.LINE_STRING);
+        break;
+      case "geometry-polygon":
+        types.push(GEO_TYPES.POLYGON);
+        break;
+      case "geometry-multipoint":
+        types.push(GEO_TYPES.MULTI_POINT);
+        break;
+      case "geometry-multilinestring":
+        types.push(GEO_TYPES.MULTI_LINE_STRING);
+        break;
+      case "geometry-multipolygon":
+        types.push(GEO_TYPES.MULTI_POLYGON);
+        break;
     }
   }
 
